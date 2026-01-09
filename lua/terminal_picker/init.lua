@@ -212,12 +212,16 @@ local function New_terminal()
 	if type(_PATH) == "string" and _PATH == "" then
 		_PATH = vim.loop.cwd()
 	end
-	Input_name(function(name)
-		name = string.gsub(name, " ", "_")
-		Input_cmd(name, function(id, cmd)
-			Create_new_terminal(id, name, cmd)
+
+	vim.defer_fn(function()
+		vim.cmd(":FloatermHide")
+		Input_name(function(name)
+			name = string.gsub(name, " ", "_")
+			Input_cmd(name, function(id, cmd)
+				Create_new_terminal(id, name, cmd)
+			end)
 		end)
-	end)
+	end, 10)
 end
 
 M.setup = function(props)
