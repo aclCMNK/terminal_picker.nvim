@@ -10,6 +10,7 @@ A Neovim plugin for managing [vim-floaterm](https://github.com/voldikss/vim-floa
 - **Integration**: Leverages vim-floaterm for robust terminal management.
 - **Fallback Support**: Uses vim.ui if fzf_lua is unavailable.
 - **Automatic Mode Entry**: Enters terminal mode ('t') automatically after switching to or creating terminals for immediate interaction.
+- **Automatic Mode Entry**: Enters terminal mode ('t') automatically after switching to or creating terminals for immediate interaction.
 
 ## Requirements
 
@@ -207,6 +208,11 @@ vim.keymap.set('n', '<leader>tp', ':TerminalPicker<CR>')
 vim.keymap.set('n', '<leader>tn', ':TerminalPickerNew<CR>')
 vim.keymap.set('n', '<leader>tk', ':TerminalPickerKillAll<CR>')
 ```
+
+In the picker, use:
+- Ctrl-n: Create new terminal
+- Ctrl-k: Kill selected terminal
+- Ctrl-x: Kill all terminals
 
 ## Troubleshooting
 

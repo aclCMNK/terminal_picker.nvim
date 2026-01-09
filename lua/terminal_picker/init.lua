@@ -99,45 +99,23 @@ local function Choice_terminal(choice)
 	end, 10)
 end
 
-local function Select()
-	local buffer = {}
-	local list = {}
+local function Kill_all()
 	local buflist = vim.fn['floaterm#buflist#gather']()
+	_terms = {}
 	for _, v in ipairs(buflist) do
-		local name = vim.fn.getbufvar(v, 'floaterm_name', '')
-		table.insert(buffer, { bufnr = v, id = name })
-		_terms[name].bufnr = v
-		table.insert(list, _terms[name].key .. " [" .. _terms[name].name .. "] [ID: " .. name .. "]")
+		vim.fn['floaterm#terminal#kill'](v)
 	end
-	local title = "Choice a terminal"
-	if _fzf ~= nil then
-		_fzf_props["prompt"] = title
-		_fzf_props["cwd"] = _PATH
-		_fzf_props["actions"] = {
-			["default"] = function(selected)
-				local choice = selected[1]
-				if choice then
-					Choice_terminal(choice)
-				end
-			end
-		}
-		if _fzf_props["winopts"] == nil then
-			_fzf_props["winopts"] = {
-				height = 0.35,
-				width = 0.50,
-				border = "rounded",
-			}
-		end
-		_fzf.fzf_exec(list, _fzf_props)
-		return
-	end
-	vim.ui.select(list, { prompt = title }, function(choice)
-		if choice then
-			Choice_terminal(choice)
-		end
-	end)
 end
 
+local function Kill_terminal(choice)
+	local split_spaces = API.split(choice, " ")
+	local preID = split_spaces[#split_spaces]
+	local id = string.gsub(preID, "]", "")
+	local item = _terms[id]
+	vim.cmd(":FloatermHide " .. id)
+	vim.fn["floaterm#terminal#kill"](item.bufnr)
+	_terms[id] = nil
+end
 
 local function Input_name(hook)
 	vim.ui.input({ prompt = "Terminal name: " }, function(input)
@@ -188,7 +166,7 @@ local function Input_cmd(name, hook)
 		table.insert(list, v.name)
 		dicc[v.name] = { icon = v.icon, name = v.name, cmd = v.cmd }
 	end
-	local title = "Choice a tool to run in a terminal"
+	local title = "Choice a tool to run in a terminal > "
 	if _fzf ~= nil then
 		_fzf_props["prompt"] = title
 		_fzf_props["cwd"] = _PATH
@@ -200,6 +178,10 @@ local function Input_cmd(name, hook)
 				end
 			end
 		}
+
+		_fzf_props["fzf_opts"] = _fzf_props["fzf_opts"] or {}
+		_fzf_props["fzf_opts"]["--preview-window"] = nil
+		_fzf_props["fzf_opts"]["--header"] = nil
 		if _fzf_props["winopts"] == nil then
 			_fzf_props["winopts"] = {
 				height = 0.35,
@@ -245,12 +227,59 @@ local function New_terminal()
 	end, 10)
 end
 
-local function Kill_all()
+local function Select()
+	local buffer = {}
+	local list = {}
 	local buflist = vim.fn['floaterm#buflist#gather']()
-	_terms = {}
 	for _, v in ipairs(buflist) do
-		vim.fn['floaterm#terminal#kill'](v)
+		local name = vim.fn.getbufvar(v, 'floaterm_name', '')
+		table.insert(buffer, { bufnr = v, id = name })
+		_terms[name].bufnr = v
+		table.insert(list, _terms[name].key .. " [" .. _terms[name].name .. "] [ID: " .. name .. "]")
 	end
+	local title = "Choice a terminal > "
+	if _fzf ~= nil then
+		_fzf_props["prompt"] = title
+		_fzf_props["cwd"] = _PATH
+		_fzf_props["actions"] = {
+			["default"] = function(selected)
+				local choice = selected[1]
+				if choice then
+					Choice_terminal(choice)
+				end
+			end,
+			["ctrl-k"] = function(selected, opts)
+				Kill_terminal(selected[1])
+			end,
+			["ctrl-x"] = function(selected, opts)
+				Kill_all()
+			end,
+			["ctrl-n"] = function(selected, opts)
+				New_terminal()
+			end
+		}
+		_fzf_props["fzf_opts"] = _fzf_props["fzf_opts"] or {}
+		_fzf_props["fzf_opts"]["--preview-window"] = "up:1"
+		_fzf_props["fzf_opts"]["--header"] = "Ctrl-n: New terminal | Ctrl-k: Kill terminal | Ctrl-x Kill all"
+		if _fzf_props["winopts"] == nil then
+			_fzf_props["winopts"] = {
+				height = 0.35,
+				width = 0.50,
+				border = "rounded",
+			}
+		end
+		_fzf_props["winopts"].preview = _fzf_props["winopts"].preview or {}
+		if type(_fzf_props["winopts"].preview.hidden) ~= "nil" then
+			_fzf_props["winopts"].preview.hidden = nil
+		end
+		_fzf.fzf_exec(list, _fzf_props)
+		return
+	end
+	vim.ui.select(list, { prompt = title }, function(choice)
+		if choice then
+			Choice_terminal(choice)
+		end
+	end)
 end
 
 M.setup = function(props)
