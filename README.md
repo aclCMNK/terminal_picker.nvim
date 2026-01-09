@@ -123,7 +123,7 @@ Generate a FloatermNew command for a regular terminal.
   - `borderchars`: String for border characters (8 chars; default: '─│─│┌┐┘└').
   - `shell`: String for shell command (default: '&shell').
   
-  **Note:** In this moment, we support these properties, but if you want to get more information about these properties, you can go to and read in vim-floaterm documentation.
+  **Note:** In this moment, we support these properties, but if you want to get more information about these properties, you can go to vim-floaterm documentation and read it.
 - `cmd`: Optional command to run in the terminal.
 
 Returns: Command string.
@@ -144,7 +144,7 @@ Generate a FloatermNew command for an external tool.
   - `borderchars`: String for border characters (8 chars; default: '─│─│┌┐┘└').
   - `shell`: String for shell command (default: '&shell').
 
-  **Note:** In this moment, we support these properties, but if you want to get more information about these properties, you can go to and read in vim-floaterm documentation.
+  **Note:** In this moment, we support these properties, but if you want to get more information about these properties, you can go to vim-floaterm documentation and read it.
 
 Returns: Command string or nil if invalid.
 
