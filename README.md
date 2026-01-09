@@ -63,12 +63,12 @@ Using [lazy.nvim](https://github.com/folke/lazy.nvim):
             },
             fzf_lua = {}  -- fzf_lua options
         })
-```
-
-Replace '[Here your path]' with desired paths (e.g., `vim.loop.cwd()`). Use functions for dynamic paths/commands; `External_tool` for tools, `Regular_terminal` for shells.
     end
 }
 ```
+
+Replace '[Here your path]' with desired paths (e.g., `vim.loop.cwd()`). Use functions for dynamic paths/commands; `External_tool` for tools, `Regular_terminal` for shells.
+
 
 ## Usage
 
@@ -157,14 +157,13 @@ require('terminal_picker').setup({
             }
         }  -- Mix string and function cmds as needed
     },
-```
-
-> **Note:** Do not modify the `{% %}` placeholders in `cmd` strings (e.g., `{%name_id%}`, `{%icon%}`, `{%name%}`). They are automatically replaced by the plugin with appropriate values like unique IDs or names. Altering them may cause errors.
     fzf_lua = {  -- Passed to fzf_lua pickers
         winopts = { height = 0.4, width = 0.6 }
     }
 })
 ```
+
+> **Note:** Do not modify the `{% %}` placeholders in `cmd` strings (e.g., `{%name_id%}`, `{%icon%}`, `{%name%}`). They are automatically replaced by the plugin with appropriate values like unique IDs or names. Altering them may cause errors.
 
 #### Usage in Workflow
 
