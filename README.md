@@ -9,6 +9,7 @@ A Neovim plugin for managing [vim-floaterm](https://github.com/voldikss/vim-floa
 - **Mode Ensures**: Automatically enters terminal mode ('t') on switch or creation for immediate interaction.
 - **Integration**: Leverages vim-floaterm for robust terminal management.
 - **Fallback Support**: Uses vim.ui if fzf_lua is unavailable.
+- **Automatic Mode Entry**: Enters terminal mode ('t') automatically after switching to or creating terminals for immediate interaction.
 
 ## Requirements
 
@@ -107,8 +108,18 @@ require('terminal_picker').setup({
 Generate a FloatermNew command for a regular terminal.
 
 - `path`: Working directory (string or nil).
-- `props`: Table with `width`, `height` (floats, e.g., 0.9).
-- `cmd`: Optional command to run.
+- `props`: Table of properties (all optional, with defaults from vim-floaterm):
+  - `width`: Float (0-1) for width relative to screen (default: 0.9).
+  - `height`: Float (0-1) for height relative to screen (default: 0.9).
+  - `position`: String for window position (e.g., 'center', 'topleft', 'bottomright'; default: 'center').
+  - `wintype`: String for window type ('float' for floating, 'split' for split; default: 'float').
+  - `autoclose`: Number for auto-close behavior (0=never, 1=on normal exit, 2=always; default: 0).
+  - `titleposition`: String for title position ('left', 'center', 'right'; default: 'left').
+  - `borderchars`: String for border characters (8 chars; default: '─│─│┌┐┘└').
+  - `shell`: String for shell command (default: '&shell').
+  
+  **Note:** In this moment, we support these properties, but if you want to get more information about these properties, you can go to and read in vim-floaterm documentation.
+- `cmd`: Optional command to run in the terminal.
 
 Returns: Command string.
 
@@ -116,9 +127,19 @@ Returns: Command string.
 
 Generate a FloatermNew command for an external tool.
 
-- `path`: Working directory.
-- `tool`: Tool command.
-- `props`: Width/height props.
+- `path`: Working directory (string or nil).
+- `tool`: Tool command (string).
+- `props`: Table of properties (all optional, with defaults from vim-floaterm):
+  - `width`: Float (0-1) for width relative to screen (default: 0.9).
+  - `height`: Float (0-1) for height relative to screen (default: 0.9).
+  - `position`: String for window position (e.g., 'center', 'topleft', 'bottomright'; default: 'center').
+  - `wintype`: String for window type ('float' for floating, 'split' for split; default: 'float').
+  - `autoclose`: Number for auto-close behavior (0=never, 1=on normal exit, 2=always; default: 0).
+  - `titleposition`: String for title position ('left', 'center', 'right'; default: 'left').
+  - `borderchars`: String for border characters (8 chars; default: '─│─│┌┐┘└').
+  - `shell`: String for shell command (default: '&shell').
+
+  **Note:** In this moment, we support these properties, but if you want to get more information about these properties, you can go to and read in vim-floaterm documentation.
 
 Returns: Command string or nil if invalid.
 
@@ -128,6 +149,7 @@ Returns: Command string or nil if invalid.
 - `Create_new_terminal(id, name, item)`: Create terminal, ensures mode.
 - `Select()`: Picker for existing terminals.
 - `New_terminal()`: Workflow for new terminal.
+- `Kill_all()`: Workflow for kill all terminals.
 
 ### Examples
 
@@ -170,7 +192,7 @@ require('terminal_picker').setup({
 1. Run `:TerminalPickerNew`.
 2. Enter terminal name (e.g., "mytTerm").
 3. Select tool (e.g., "terminal" for shell).
-4. Terminal opens in float window, ready for input (mode 't').
+4. Terminal opens in float window, ready for input (mode 't'). Sometimes the plugins has problems to focus the terminal in "Terminal" mode, so, just press i or a (it will be fix this in the future).
 
 ## Key Bindings
 
@@ -179,15 +201,16 @@ No default keymaps. Example mappings:
 ```lua
 vim.keymap.set('n', '<leader>tp', ':TerminalPicker<CR>')
 vim.keymap.set('n', '<leader>tn', ':TerminalPickerNew<CR>')
+vim.keymap.set('n', '<leader>tk', ':TerminalPickerKillAll<CR>')
 ```
 
 ## Troubleshooting
 
 - **No terminals listed**: Ensure vim-floaterm is installed and terminals exist.
 - **Picker not working**: Check fzf_lua installation; falls back to vim.ui.
-- **Mode not entering**: Plugin ensures 't' mode; if issues, check vim-floaterm settings.
+- **Mode not entering after switch/create**: The plugin ensures 't' mode automatically; if issues persist, check vim-floaterm settings or reload the plugin.
 - **Errors on create**: Verify tool commands; pcall catches failures.
-- **Path issues**: Uses `vim.g.projpath` or `vim.loop.cwd()`.
+- **Path issues**: Uses `vim.loop.cwd()`.
 
 ## Contributing
 

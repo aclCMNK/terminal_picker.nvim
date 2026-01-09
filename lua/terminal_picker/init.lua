@@ -37,7 +37,18 @@ local M = {
 		props = props or {}
 		return "FloatermNew! --width=" ..
 			(props.width or "0.9") ..
-			" --height=" .. (props.height or "0.9") .. " --name={%name_id%} --title=[{%icon%}{%name%}]" ..
+			" --height=" ..
+			(props.height or "0.9") ..
+			" --position=" ..
+			(props.position or "center") ..
+			" --wintype=" ..
+			(props.wintype or "float") ..
+			" --autoclose=" ..
+			(props.autoclose or 0) ..
+			" --titleposition=" .. (props.titleposition or "left") ..
+			" --borderchars=" .. (props.borderchars or "─│─│┌┐┘└") ..
+			" --shell=" .. (props.shell or "&shell") ..
+			" --name={%name_id%} --title=[{%icon%}{%name%}][$1/$2]" ..
 			" cd '" .. path .. "' && clear" .. cmd
 	end,
 	External_tool = function(path, tool, props)
@@ -53,8 +64,18 @@ local M = {
 			path = vim.loop.cwd()
 		end
 		props = props or {}
-		return "FloatermNew --name={%name_id%} --title=[{%icon%}{%name%}]" ..
-			" --width=" .. (props.width or "0.9") .. " --height=" .. (props.height or "0.9") ..
+		return "FloatermNew --name={%name_id%} --title=[{%icon%}{%name%}][$1/$2]" ..
+			" --width=" .. (props.width or "0.9") ..
+			" --height=" .. (props.height or "0.9") ..
+			" --position=" ..
+			(props.position or "center") ..
+			" --wintype=" ..
+			(props.wintype or "float") ..
+			" --autoclose=" ..
+			(props.autoclose or 0) ..
+			" --titleposition=" .. (props.titleposition or "left") ..
+			" --borderchars=" .. (props.borderchars or "─│─│┌┐┘└") ..
+			" --shell=" .. (props.shell or "&shell") ..
 			" --cwd=" .. path .. " " .. tool
 	end
 }
