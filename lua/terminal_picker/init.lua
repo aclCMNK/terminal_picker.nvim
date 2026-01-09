@@ -224,6 +224,14 @@ local function New_terminal()
 	end, 10)
 end
 
+local function Kill_all()
+	local buflist = vim.fn['floaterm#buflist#gather']()
+	_terms = {}
+	for _, v in ipairs(buflist) do
+		vim.fn['floaterm#terminal#kill'](v)
+	end
+end
+
 M.setup = function(props)
 	props = props or {}
 	_config = props.config or {}
@@ -232,8 +240,10 @@ M.setup = function(props)
 		_fzf_props = props.fzf_lua or {}
 		_fzf = require("fzf-lua")
 	end
+
 	vim.api.nvim_create_user_command("TerminalPicker", Select, {})
 	vim.api.nvim_create_user_command("TerminalPickerNew", New_terminal, {})
+	vim.api.nvim_create_user_command("TerminalPickerKillAll", Kill_all, {})
 end
 
 return M

@@ -76,6 +76,7 @@ Replace '[Here your path]' with desired paths (e.g., `vim.loop.cwd()`). Use func
 
 - `:TerminalPicker`: Open picker to select and switch to an existing terminal.
 - `:TerminalPickerNew`: Start workflow to create a new terminal (prompts for name, then tool type).
+- `:TerminalPickerKillAll`: Kill all floaterm terminals at once.
 
 ### Setup Options
 
