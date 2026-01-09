@@ -67,7 +67,7 @@ Using [lazy.nvim](https://github.com/folke/lazy.nvim):
 }
 ```
 
-Replace '[Here your path]' with desired paths (e.g., `vim.loop.cwd()`). Use functions for dynamic paths/commands; `External_tool` for tools, `Regular_terminal` for shells.
+> Replace '[Here your path]' with desired paths (e.g., `vim.loop.cwd()`). Use functions for dynamic paths/commands; `External_tool` for tools, `Regular_terminal` for shells.
 
 
 ## Usage
