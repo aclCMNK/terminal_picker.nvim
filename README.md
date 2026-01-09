@@ -17,6 +17,10 @@ A Neovim plugin for managing [vim-floaterm](https://github.com/voldikss/vim-floa
 - [vim-floaterm](https://github.com/voldikss/vim-floaterm)
 - Optional: [fzf-lua](https://github.com/ibhagwan/fzf-lua) for enhanced pickers
 
+## Demo
+
+https://github.com/user-attachments/assets/51460583-ade3-46fb-a03c-9e2fdc91bd75
+
 ## Installation
 
 Using [lazy.nvim](https://github.com/folke/lazy.nvim):
