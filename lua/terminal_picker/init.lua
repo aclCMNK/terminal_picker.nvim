@@ -282,6 +282,21 @@ local function Select()
 	end)
 end
 
+M.new_terminal = function(name, icon, cmd)
+	local id = API.IDGen()
+	icon = icon or ""
+	name = string.gsub(name, " ", "_")
+	if API.trim(icon) ~= "" then
+		icon = icon .. "__"
+	end
+	name = string.gsub(name, " ", "_")
+	local item = { name = name, icon = icon, cmd = cmd }
+	item.cmd = string.gsub(item.cmd, "{%%name%%}", name)
+	item.cmd = string.gsub(item.cmd, "{%%name_id%%}", id)
+	item.cmd = string.gsub(item.cmd, "{%%icon%%}", icon)
+	Create_new_terminal(id, name, item)
+end
+
 M.setup = function(props)
 	props = props or {}
 	_config = props.config or {}
