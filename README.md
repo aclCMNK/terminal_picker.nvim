@@ -148,6 +148,16 @@ Generate a FloatermNew command for an external tool.
 
 Returns: Command string or nil if invalid.
 
+#### `M.new_terminal(name, icon, cmd)`
+
+Create a new terminal programmatically with the specified name, icon, and command.
+
+- `name`: String - The name for the terminal (spaces will be converted to underscores)
+- `icon`: String - Optional icon to display in the terminal title (defaults to "")
+- `cmd`: String - The command string to execute in the terminal (supports template variables `{%name%}`, `{%name_id%}`, `{%icon%}`)
+
+Returns: Nothing
+
 #### Internal Functions
 
 - `Choice_terminal(choice)`: Switch to terminal by choice string, ensures mode.
@@ -198,6 +208,23 @@ require('terminal_picker').setup({
 2. Enter terminal name (e.g., "mytTerm").
 3. Select tool (e.g., "terminal" for shell).
 4. Terminal opens in float window, ready for input (mode 't'). Sometimes the plugins has problems to focus the terminal in "Terminal" mode, so, just press i or a (it will be fix this in the future).
+
+#### Programmatic Terminal Creation
+
+If you need to create a terminal programmatically, you can use the `new_terminal` function.
+For cmd, you can use the `External_tool` or `Regular_terminal` functions.
+
+```lua
+local terminal = require("terminal_picker")
+local cmd = terminal.Regular_terminal(props.path, "terminal")
+terminal.new_terminal("Terminal", nil, cmd)
+```
+
+```lua
+local terminal = require("terminal_picker")
+local cmd = terminal.External_tool(props.path, "lazygit", { width = 0.9, height = 0.9 })
+terminal.new_terminal("LazyGit", "󰊢", cmd)
+```
 
 ## Key Bindings
 
