@@ -234,7 +234,12 @@ local function Select()
 	for _, v in ipairs(buflist) do
 		local name = vim.fn.getbufvar(v, 'floaterm_name', '')
 		table.insert(buffer, { bufnr = v, id = name })
-		_terms[name].bufnr = v
+		-- Handle case where _terms[name] is nil (e.g., terminals opened before plugin load)
+		if _terms[name] == nil then
+			_terms[name] = { bufnr = v, key = "unknown", name = "Unnamed Terminal" }
+		else
+			_terms[name].bufnr = v
+		end
 		table.insert(list, _terms[name].key .. " [" .. _terms[name].name .. "] [ID: " .. name .. "]")
 	end
 	local title = "Choice a terminal > "
