@@ -49,7 +49,7 @@ local M = {
 			" --borderchars=" .. (props.borderchars or "─│─│┌┐┘└") ..
 			" --shell=" .. (props.shell or "&shell") ..
 			" --name={%name_id%} --title=[{%icon%}{%name%}][$1/$2]" ..
-			" cd '" .. path .. "' && clear" .. cmd
+			" --cwd=" .. path .. " clear" .. cmd
 	end,
 	External_tool = function(path, tool, props)
 		path = path or vim.loop.cwd()
