@@ -1,3 +1,12 @@
+local autoclose_map = {
+	[0] = "never",
+	[1] = "smart",
+	[2] = "always",
+}
+local function get_autoclose_value(val)
+	return autoclose_map[val] or "never"
+end
+
 local API = {
 	trim = function(s)
 		return string.gsub(s, "^%s*(.-)%s*$", "%1")
@@ -44,12 +53,12 @@ local M = {
 			" --wintype=" ..
 			(props.wintype or "float") ..
 			" --autoclose=" ..
-			(props.autoclose or 0) ..
+			get_autoclose_value(props.autoclose) ..
 			" --titleposition=" .. (props.titleposition or "left") ..
 			" --borderchars=" .. (props.borderchars or "─│─│┌┐┘└") ..
 			" --shell=" .. (props.shell or "&shell") ..
 			" --name={%name_id%} --title=[{%icon%}{%name%}][$1/$2]" ..
-			" --cwd=" .. path .. " clear" .. cmd
+			" --cwd=cd " .. path .. " clear" .. cmd
 	end,
 	External_tool = function(path, tool, props)
 		path = path or vim.loop.cwd()
@@ -72,7 +81,7 @@ local M = {
 			" --wintype=" ..
 			(props.wintype or "float") ..
 			" --autoclose=" ..
-			(props.autoclose or 0) ..
+			get_autoclose_value(props.autoclose) ..
 			" --titleposition=" .. (props.titleposition or "left") ..
 			" --borderchars=" .. (props.borderchars or "─│─│┌┐┘└") ..
 			" --shell=" .. (props.shell or "&shell") ..
