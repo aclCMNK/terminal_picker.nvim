@@ -34,7 +34,7 @@ local API = {
 	end,
 }
 local M = {
-	Regular_terminal = function(path, props, cmd)
+	Regular_terminal = function(path, cmd, props)
 		cmd = cmd or ""
 		path = path or vim.loop.cwd()
 		if API.trim(path) == "" then
@@ -53,12 +53,12 @@ local M = {
 			" --wintype=" ..
 			(props.wintype or "float") ..
 			" --autoclose=" ..
-			get_autoclose_value(props.autoclose) ..
+			get_autoclose_value(props.autoclose or 0) ..
 			" --titleposition=" .. (props.titleposition or "left") ..
 			" --borderchars=" .. (props.borderchars or "─│─│┌┐┘└") ..
 			" --shell=" .. (props.shell or "&shell") ..
 			" --name={%name_id%} --title=[{%icon%}{%name%}][$1/$2]" ..
-			" --cwd=cd " .. path .. " clear" .. cmd
+			" --cwd=" .. path
 	end,
 	External_tool = function(path, tool, props)
 		path = path or vim.loop.cwd()
@@ -81,7 +81,7 @@ local M = {
 			" --wintype=" ..
 			(props.wintype or "float") ..
 			" --autoclose=" ..
-			get_autoclose_value(props.autoclose) ..
+			get_autoclose_value(props.autoclose or 0) ..
 			" --titleposition=" .. (props.titleposition or "left") ..
 			" --borderchars=" .. (props.borderchars or "─│─│┌┐┘└") ..
 			" --shell=" .. (props.shell or "&shell") ..
